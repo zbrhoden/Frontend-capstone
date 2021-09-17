@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import "./Login.css"
 
 

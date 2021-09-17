@@ -1,49 +1,13 @@
 import React, { useState } from "react"
 import { Link, useHistory } from "react-router-dom"
 import useSimpleAuth from "../../hooks/ui/useSimpleAuth";
-import Settings from "../../repositories/Settings";
-import "bootstrap/dist/css/bootstrap.min.css"
 import "./NavBar.css"
 
 
 
 export const NavBar = () => {
-    const [ searchTerms, setTerms ] = useState("")
     const { isAuthenticated, logout, getCurrentUser } = useSimpleAuth()
     const history = useHistory()
-
-    const search = (e) => {
-        if (e.keyCode === 13) {
-            const terms = document.querySelector("#searchTerms").value
-            const foundItems = {
-
-            }
-
-            fetch(`${Settings.remoteURL}/users?employee=true&name_like=${encodeURI(terms)}`)
-                .then(r => r.json())
-                .then(employees => {
-                    foundItems.employees = employees
-                    return LocationRepository.search(terms)
-                })
-                .then(locations => {
-                    foundItems.locations = locations
-                    return AnimalRepository.searchByName(encodeURI(terms))
-                })
-                .then(animals => {
-                        if (getCurrentUser().employee === true) {
-                        foundItems.animals = animals
-                    }
-                        setTerms("")
-                        history.push({
-                            pathname: "/search",
-                            state: foundItems
-                        })
-                    })
-        }
-        else {
-            setTerms(e.target.value)
-        }
-    }
 
     return (
         <div className="container">
@@ -54,15 +18,7 @@ export const NavBar = () => {
                 <div id="navbarNavDropdown" className="navbar-collapse collapse">
                     <ul className="navbar-nav mr-auto">
                         <li className="nav-item active">
-                            <Link className="nav-link" to="/">NSS Kennels <span className="sr-only">(current)</span></Link>
-                        </li>
-                        <li className="nav-item">
-                            <input id="searchTerms"
-                                onKeyUp={search}
-                                className="form-control w-100"
-                                type="search"
-                                placeholder="Search"
-                                aria-label="Search" />
+                            <Link className="nav-link" to="/"> Ryleigh's Grocery <span className="sr-only">(current)</span></Link>
                         </li>
                     </ul>
                     <ul className="navbar-nav">

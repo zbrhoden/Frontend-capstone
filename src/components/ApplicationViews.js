@@ -1,18 +1,10 @@
 import React from "react"
-import { Route } from "react-router-dom"
-
-import UserRoutes from "./UserRoutes.js"
-import SearchResults from "./search/SearchResults"
-
+import {Store} from "./Store.js"
 
 export default () => {
     return (
         <>
-            <UserRoutes />
-
-            <Route path="/search">
-                <SearchResults />
-            </Route>
+            <Store />
         </>
     )
 }
