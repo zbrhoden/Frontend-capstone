@@ -16,9 +16,7 @@ export const NavBar = () => {
         if (e.keyCode === 13) {
             const terms = document.querySelector("#searchTerms").value
             const foundItems = {
-                animals: [],
-                locations: [],
-                employees: []
+
             }
 
             fetch(`${Settings.remoteURL}/users?employee=true&name_like=${encodeURI(terms)}`)
