@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react"
-import { useHistory } from "react-router-dom"
 import "./sale-items.css"
 import { getAllProducts } from '../ApiManager'
 
 export const Items = () => {
     const [products, setProducts] = useState([])
-    const history = useHistory()
     useEffect(
         () => {
                 getAllProducts()
@@ -32,10 +30,7 @@ export const Items = () => {
                             return <ul className="products" key={`product--${product.id}`}>
                                 <li className="product" >{product.name}</li>
                                 <li className="product price">${product.price}
-                                    <button key={`order--${product.id}`} className="order__button"
-                                        onClick={() => {
-                                            createPurchase(product.id)
-                                        }}>
+                                    <button key={`order--${product.id}`} className="order__button">
                                         Purchase
                                     </button>
                                 </li>
