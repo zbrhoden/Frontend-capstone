@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { Store } from './components/Store';
+import { Items } from './components/sale-items';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Store />
+      <Items />
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
