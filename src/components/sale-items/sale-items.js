@@ -18,27 +18,26 @@ export const Items = () => {
 
         <>
             <h3>Available Products</h3>
-            <div className="products__container">
                 <div className="products__header">
                 </div>
                 {
                     products.map(
                         (product) => {
-                            return <ul className="products" key={`product--${product.id}`}>
-                                <li className="product" >{product.name}</li>
-                                <li className="product price">${product.price}
-                                    <button key={`order--${product.id}`} className="order__button">
+                            return <h3 className="products__container">
+                                <ul className="products" key={`product--${product.id}`}>
+                                <ul className="product" >{product.name}</ul>
+                                <ul className="product price">${product.price}
+                                </ul>
+                                <button key={`order--${product.id}`} className="order__button">
                                         Purchase
                                     </button>
-                                </li>
                             </ul>
-
+                            </h3>
                         }
+                    
                     )
+                    
                 }
-
-            </div>
-
         </>
     )
 }
