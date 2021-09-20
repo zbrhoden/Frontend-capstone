@@ -20,9 +20,6 @@ export const Items = () => {
             <h3>Available Products</h3>
             <div className="products__container">
                 <div className="products__header">
-                    <div>Name</div>
-                    <div>Type</div>
-                    <div>Price</div>
                 </div>
                 {
                     products.map(
