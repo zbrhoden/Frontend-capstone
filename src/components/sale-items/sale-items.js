@@ -23,7 +23,7 @@ export const Items = () => {
                 {
                     products.map(
                         (product) => {
-                            return <h3 className="products__container">
+                            return <h3 className="card">
                                 <ul className="products" key={`product--${product.id}`}>
                                 <ul className="product" >{product.name}</ul>
                                 <ul className="product price">${product.price}
