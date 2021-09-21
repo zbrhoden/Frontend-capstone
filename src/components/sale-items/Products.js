@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
-import "./sale-items.css"
+import "./Products.css"
 import { getAllProducts } from '../ApiManager'
 
-export const Items = () => {
+export const Products = () => {
     const [products, setProducts] = useState([])
     const [cart, setCart] = useState([])
 
@@ -17,27 +17,23 @@ export const Items = () => {
     )
 
     function handleAddProductToCart(productId, name, price) {
-        console.log('You clicked add.', productId);
         let newCart=cart
-        
+            const check_index = newCart.findIndex(item => item.productId === productId);
+                if (check_index !== -1) {
+                    newCart[check_index].quantity++;
+                } else {
+                    newCart.push({...products.find(p => p.id === productId), quantity: 1})
+                    console.log('The product has been added to cart:', newCart);
+                
+            }
         //is this item in the cart
         //--loop/find
         //--create a var isFound=true/false
         //if yes, add 1 to quantity
         //if no, add item to cart
         //--use isfound==false
-
-
         //--create a cart item
-        const cartItem = {
-             id: productId,
-             name,
-             price,
-             quantity: 1
-        } 
-        newCart.push (cartItem)
         //--push item into cart
-        console.log('contents of newCart', newCart);
 
         setCart(newCart)
     }
