@@ -1,15 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import { Products } from './components/sale-items/Products';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { NavBar } from './components/nav/NavBar';
+import SimpleModal from './components/cart/Cart'
+
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
       <NavBar />
+      <SimpleModal />
       <Products />
     </BrowserRouter>
   </React.StrictMode>,

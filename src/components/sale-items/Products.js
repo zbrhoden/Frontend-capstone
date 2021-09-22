@@ -18,24 +18,16 @@ export const Products = () => {
 
     function handleAddProductToCart(productId, name, price) {
         let newCart=cart
-            const check_index = newCart.findIndex(item => item.id === productId);
-                if (check_index !== -1) {
-                    newCart[check_index].quantity++;
-                    console.log("Quantity updated:", newCart);
-                } else {
-                    newCart.push({...products.find(p => p.id === productId), quantity: 1})
-                    console.log('The product has been added to cart:', newCart);
-                
-            }
-        //is this item in the cart
-        //--loop/find
-        //--create a var isFound=true/false
-        //if yes, add 1 to quantity
-        //if no, add item to cart
-        //--use isfound==false
-        //--create a cart item
-        //--push item into cart
-
+        const check_index = newCart.findIndex(item => item.id === productId);
+        if (check_index !== -1) {
+            //I found the product, increment the quantity
+            newCart[check_index].quantity++;
+            console.log("Quantity updated:", newCart);
+        } else {
+            //New product, so add to cart
+            newCart.push({...products.find(product => product.id === productId), quantity: 1})
+            console.log('The product has been added to cart:', newCart);     
+        }
         setCart(newCart)
     }
 
