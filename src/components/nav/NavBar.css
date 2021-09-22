@@ -1,0 +1,18 @@
+.NavbarItems {
+background-color:forestgreen;
+display: flex;
+}
+
+.NavBar-brand {
+    margin-left: 10px;
+}
+
+.menu-item {
+    display: grid;
+    grid-template-columns: repeat(5,auto);
+    grid-gap: 10px;
+    list-style: none;
+    text-align: center;
+    width: 70vw;
+    justify-content: end;
+}
