@@ -2,6 +2,8 @@ import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+
 
 function rand() {
     return Math.round(Math.random() * 20) - 10;
@@ -47,8 +49,9 @@ export default function SimpleModal() {
 
     return (
         <div>
-            <Button variant="contained" color="primary" onClick={handleOpen}>
-                Open Modal
+            
+            <Button> 
+            <ShoppingCartIcon />
             </Button>
 
             <Modal
