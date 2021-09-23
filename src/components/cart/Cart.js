@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function SimpleModal() {
+export default function SimpleModal(props) {
     const classes = useStyles();
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
@@ -46,12 +46,16 @@ export default function SimpleModal() {
     const handleClose = () => {
         setOpen(false);
     };
-
+    console.log('Modal', props.cart)
+    //counttotalquantity of cart
+    const cartTotal=3
+    //import and use material ui badge
     return (
         <div>
             
-            <Button> 
-            <ShoppingCartIcon />
+            <Button
+            onClick={() => handleOpen()}>
+                <ShoppingCartIcon />
             </Button>
 
             <Modal
@@ -63,7 +67,7 @@ export default function SimpleModal() {
                 <div style={modalStyle} className={classes.paper}>
                     <h2>Simple React Modal</h2>
                     <p>
-                       
+                        dump contents of cart -- .map
                     </p>
                 </div>
             </Modal>

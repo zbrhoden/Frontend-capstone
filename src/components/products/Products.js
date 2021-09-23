@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react"
 import "./Products.css"
 import { getAllProducts } from '../ApiManager'
 
-export const Products = () => {
+export const Products = (props) => {
     const [products, setProducts] = useState([])
-    const [cart, setCart] = useState([])
+    // const [cart, setCart] = useState([])
 
     useEffect(
         () => {
@@ -17,7 +17,7 @@ export const Products = () => {
     )
 
     function handleAddProductToCart(productId, name, price) {
-        let newCart=cart
+        let newCart=props.cart
         const check_index = newCart.findIndex(item => item.id === productId);
         if (check_index !== -1) {
             //I found the product, increment the quantity
@@ -28,7 +28,8 @@ export const Products = () => {
             newCart.push({...products.find(product => product.id === productId), quantity: 1})
             console.log('The product has been added to cart:', newCart);     
         }
-        setCart(newCart)
+        // setCart(newCart)
+        props.setAppCart(newCart)
     }
 
     return (
