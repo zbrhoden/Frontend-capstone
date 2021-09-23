@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react"
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-
+import Badge from '@material-ui/core/Badge';
 
 function rand() {
     return Math.round(Math.random() * 20) - 10;
@@ -34,10 +34,18 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-export default function SimpleModal(props) {
+export default function Cart(props) {
     const classes = useStyles();
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
+    const [totalQuantity, updateTotalQuantity] = useState();
+
+    useEffect(() => {
+        const cartQuantity = props.cart.reduce((sum, product)=> sum + product.quantity, 0)
+        props.setAppCart(cartQuantity)
+
+        //updateTotalQuantity(cartQuantity)
+    }, [props.cart])
 
     const handleOpen = () => {
         setOpen(true);
@@ -48,14 +56,19 @@ export default function SimpleModal(props) {
     };
     console.log('Modal', props.cart)
     //counttotalquantity of cart
-    const cartTotal=3
+    console.log('totalQuantity', totalQuantity)
     //import and use material ui badge
+    
+
+
     return (
+        <>
         <div>
-            
+            <Badge>{totalQuantity}</Badge>
             <Button
             onClick={() => handleOpen()}>
                 <ShoppingCartIcon />
+                
             </Button>
 
             <Modal
@@ -72,5 +85,6 @@ export default function SimpleModal(props) {
                 </div>
             </Modal>
         </div>
+        </>
     );
 }
