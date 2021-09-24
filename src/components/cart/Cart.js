@@ -38,14 +38,12 @@ export default function Cart(props) {
     const classes = useStyles();
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
-    const [totalQuantity, updateTotalQuantity] = useState();
+    
+    console.log("Cart Props", props)
+    const cartQuantity = props.cart.reduce((sum, product)=> sum + product.quantity, 0)
+    console.log('Quantity',cartQuantity)
 
-    useEffect(() => {
-        const cartQuantity = props.cart.reduce((sum, product)=> sum + product.quantity, 0)
-        props.setAppCart(cartQuantity)
-
-        //updateTotalQuantity(cartQuantity)
-    }, [props.cart])
+   
 
     const handleOpen = () => {
         setOpen(true);
@@ -54,9 +52,9 @@ export default function Cart(props) {
     const handleClose = () => {
         setOpen(false);
     };
-    console.log('Modal', props.cart)
+   
     //counttotalquantity of cart
-    console.log('totalQuantity', totalQuantity)
+    
     //import and use material ui badge
     
 
@@ -64,10 +62,9 @@ export default function Cart(props) {
     return (
         <>
         <div>
-            <Badge>{totalQuantity}</Badge>
-            <Button
-            onClick={() => handleOpen()}>
-                <ShoppingCartIcon />
+            {/* {totalQuantity} */}
+            <Button onClick={() => handleOpen()}>
+            <Badge badgeContent={cartQuantity} ><ShoppingCartIcon /></Badge>
                 
             </Button>
 
@@ -79,9 +76,16 @@ export default function Cart(props) {
             >
                 <div style={modalStyle} className={classes.paper}>
                     <h2>Simple React Modal</h2>
-                    <p>
-                        dump contents of cart -- .map
-                    </p>
+                    
+                    {
+                    props.cart.map(
+                        (cart) => {
+                            return <h3 className="cartCard">
+                                <ul className="products" key={`product--${cart.id}`}></ul>
+                                <ul className="product" >{cart.name}</ul>
+                                <ul className="product quantity">Quantity: {cart.quantity}</ul>
+                    </h3>
+                    })}
                 </div>
             </Modal>
         </div>

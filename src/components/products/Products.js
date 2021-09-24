@@ -22,7 +22,7 @@ export const Products = (props) => {
         if (check_index !== -1) {
             //I found the product, increment the quantity
             newCart[check_index].quantity++;
-            console.log("Quantity updated:", newCart);
+            console.log("Products-Quantity updated:", newCart);
         } else {
             //New product, so add to cart
             newCart.push({...products.find(product => product.id === productId), quantity: 1})
@@ -42,12 +42,12 @@ export const Products = (props) => {
                     products.map(
                         (product) => {
                             return <h3 className="card">
-                                <ul className="products" key={`product--${product.id}`}>
+                                <ul className="products" key={`product--${product.id}-${Math.random()}`}>
                                 <ul className="product" >{product.name}</ul>
                                 <ul className="product price">${product.price}
                                 </ul>
                                 <button 
-                                    key={`order--${product.id}`} 
+                                    key={`order-${product.id}-${Math.random()}`} 
                                     className="order__button"
                                     onClick={() => handleAddProductToCart(product.id, product.name, product.price)}
                                 >
