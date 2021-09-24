@@ -41,11 +41,14 @@ export default function Cart(props) {
     const [open, setOpen] = React.useState(false);
     const [order, setOrder] = useState({});
     
-    console.log("Cart Props", props)
-    const cartQuantity = props.cart.reduce((sum, product)=> sum + product.quantity, 0)
-    console.log('Quantity',cartQuantity)
 
-   
+    const createPurchase = () => {
+        const submittedCart = props.cart.map((cart) => cart )
+        props.setOrder(submittedCart)
+    }
+
+    const cartQuantity = props.cart.reduce((sum, product)=> sum + product.quantity, 0)
+
 
     const handleOpen = () => {
         setOpen(true);
@@ -86,17 +89,6 @@ export default function Cart(props) {
         props.setAppCart(newCart)
     }
 
-
-    // const createPurchase = (id) => {
-    //     const newPurchase = {
-    //         customerId: parseInt(localStorage.getItem("Purchased Cart")),
-    //         productId: id
-    //     }
-    //     getNewOrder(newPurchase)
-    //         .then(() => {
-    //             history.push(Order)
-    //         })
-    // }
 
 
     return (
@@ -148,7 +140,7 @@ export default function Cart(props) {
                                     <button 
                                     key={`order-${cart.id}-${Math.random()}`} 
                                     className="order__button"
-                                    // onClick={}
+                                    onClick= {createPurchase}
                                 >
                                         Submit
                                     </button>

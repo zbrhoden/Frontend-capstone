@@ -37,6 +37,7 @@ export const Products = (props) => {
         <>
             <h3>Available Products</h3>
                 <div className="products__header">
+
                 </div>
                 {
                     products.map(
@@ -60,6 +61,8 @@ export const Products = (props) => {
                     )
                     
                 }
+                <div> 
+                </div>
         </>
     )
 }
