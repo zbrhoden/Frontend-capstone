@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+
 import "./NavBar.css"
 import Cart from '../cart/Cart'
 
