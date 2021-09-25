@@ -4,7 +4,7 @@ import { getAllProducts } from '../ApiManager'
 
 export const Products = (props) => {
     const [products, setProducts] = useState([])
-    // const [cart, setCart] = useState([])
+    const [cart, setCart] = useState([])
 
     useEffect(
         () => {
@@ -17,7 +17,8 @@ export const Products = (props) => {
     )
 
     function handleAddProductToCart(productId, name, price) {
-        let newCart=props.cart
+        let newCart=props.cart.items
+        console.log("CURRENT CART", newCart)
         const check_index = newCart.findIndex(item => item.id === productId);
         if (check_index !== -1) {
             //I found the product, increment the quantity
@@ -28,8 +29,9 @@ export const Products = (props) => {
             newCart.push({...products.find(product => product.id === productId), quantity: 1})
             console.log('The product has been added to cart:', newCart);     
         }
-        // setCart(newCart)
-        props.setAppCart(newCart)
+        const fullCart = {...props.cart, items: newCart}
+
+        props.setAppCart(fullCart)
     }
 
     return (

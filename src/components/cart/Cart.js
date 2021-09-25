@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Badge from '@material-ui/core/Badge';
-import getNewOrder from '../ApiManager';
+// import getNewOrder from '../ApiManager';
 
 function rand() {
     return Math.round(Math.random() * 20) - 10;
@@ -39,15 +39,16 @@ export default function Cart(props) {
     const classes = useStyles();
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
-    const [order, setOrder] = useState({});
+    //const [checkOut, setCheckout] = React.useState(true);
+    // const [order, setOrder] = useState({});
     
 
-    const createPurchase = () => {
-        const submittedCart = props.cart.map((cart) => cart )
-        props.setOrder(submittedCart)
-    }
-
-    const cartQuantity = props.cart.reduce((sum, product)=> sum + product.quantity, 0)
+    // const createPurchase = () => {
+    //     const submittedCart = props.cart.map((cart) => cart )
+    //     props.setOrder(submittedCart)
+    // }
+    console.log("CART CART", props.cart)
+    const cartQuantity = props.cart.items.reduce((sum, product)=> sum + product.quantity, 0)
 
 
     const handleOpen = () => {
@@ -58,35 +59,41 @@ export default function Cart(props) {
         setOpen(false);
     };
    
-
+    const handleCheckout = () => {
+        const fullCart = {...props.cart, isCheckedOut: true}
+        props.setAppCart(fullCart)
+        //setCheckout(checkOut);
+    };
     
     function handleIncrementProduct(productId, name, price) {
-        let newCart=props.cart
+        let newCart=props.cart.items
         const check_index = newCart.findIndex(item => item.id === productId);{
             newCart[check_index].quantity++;
-   
-        props.setAppCart(newCart)
+
+        const fullCart = {...props.cart, items: newCart}
+        props.setAppCart(fullCart)
     }}
 
     function handleDecrementProduct(productId, name, price) {
-        let newCart=props.cart
+        let newCart=props.cart.items
         const check_index = newCart.findIndex(item => item.id === productId);{
-            console.log("INDEX", check_index)
             newCart[check_index].quantity--;
         
         if (newCart[check_index].quantity == 0){
             handleDeleteProduct(productId, name, price)
 
         }}
-        props.setAppCart(newCart)
+        const fullCart = {...props.cart, items: newCart}
+        props.setAppCart(fullCart)
     }
 
     function handleDeleteProduct(productId, name, price) {
-        let newCart=props.cart
+        let newCart=props.cart.items
 
         newCart.splice(newCart, 1);
 
-        props.setAppCart(newCart)
+        const fullCart = {...props.cart, items: newCart}
+        props.setAppCart(fullCart)
     }
 
 
@@ -110,37 +117,37 @@ export default function Cart(props) {
                     <h2>Your Cart</h2>
                     
                     {
-                    props.cart.map(
-                        (cart) => {
+                    props.cart.items.map(
+                        (items) => {
                             return <h3 className="cartCard">
-                                <ul className="products" key={`product--${cart.id}`}>
-                                <ul className="product" >{cart.name}</ul>
-                                <ul className="product quantity">Quantity: {cart.quantity}</ul>
+                                <ul className="products" key={`product--${items.id}`}>
+                                <ul className="product" >{items.name}</ul>
+                                <ul className="product quantity">Quantity: {items.quantity}</ul>
                                 <button 
-                                    key={`order-${cart.id}-${Math.random()}`} 
+                                    key={`order-${items.id}-${Math.random()}`} 
                                     className="order__button"
-                                    onClick={() => handleIncrementProduct(cart.id, cart.name, cart.price)}
+                                    onClick={() => handleIncrementProduct(items.id, items.name, items.price)}
                                 >
                                         +
                                     </button>
                                     <button 
-                                    key={`order-${cart.id}-${Math.random()}`} 
+                                    key={`order-${items.id}-${Math.random()}`} 
                                     className="order__button"
-                                    onClick={() => handleDecrementProduct(cart.id, cart.name, cart.price)}
+                                    onClick={() => handleDecrementProduct(items.id, items.name, items.price)}
                                 >
                                         -
                                     </button>
                                     <button 
-                                    key={`order-${cart.id}-${Math.random()}`} 
+                                    key={`order-${items.id}-${Math.random()}`} 
                                     className="order__button"
-                                    onClick={() => handleDeleteProduct(cart.id, cart.name, cart.price)}
+                                    onClick={() => handleDeleteProduct(items.id, items.name, items.price)}
                                 >
                                         x
                                     </button>
                                     <button 
-                                    key={`order-${cart.id}-${Math.random()}`} 
+                                    key={`order-${items.id}-${Math.random()}`} 
                                     className="order__button"
-                                    onClick= {createPurchase}
+                                    onClick= {handleCheckout}
                                 >
                                         Submit
                                     </button>
