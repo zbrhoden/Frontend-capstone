@@ -1,10 +1,9 @@
-
 import "./NavBar.css"
 import Cart from '../cart/Cart'
 
 
 export const NavBar = (props) => {
-    console.log ("NAVBAR CART", props.cart)
+
     return (
         <nav className="NavbarItems">
             <h1 className="NavBar-brand">Blake's Groceries</h1>

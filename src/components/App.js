@@ -11,7 +11,7 @@ export const App = () => {
   const forceUpdate = React.useCallback(() => updateState({}), []);
 
   function handleAddProductToAppCart(myCart) {
-    console.log('APP Cart', myCart)
+
     setAppCart(myCart)
     forceUpdate()
   }

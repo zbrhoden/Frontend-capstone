@@ -1,4 +1,3 @@
-import React from "react"
 import "./Checkout.css"
 
 
@@ -8,14 +7,11 @@ export const Checkout = (props) => {
 
         const isCheckedOut = props.cart.isCheckedOut;
 
-        console.log("CHECKOUT CART", props.cart.items)
-        console.log("TOTAL QUANTITY", cartQuantity)
-        console.log("TOTAL PRICE", cartPrice)
 
 
         return (
           <div>
-            <b>{isCheckedOut ? `The user is checked out with ${cartQuantity}` : ''}</b>
+            <b>{isCheckedOut ? `The user is checked out with ${cartQuantity} for $${cartPrice}` : ''}</b>
 
           </div>
         )
