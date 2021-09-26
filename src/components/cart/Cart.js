@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Badge from '@material-ui/core/Badge';
-// import getNewOrder from '../ApiManager';
+import {postOrder} from '../ApiManager';
 
 function rand() {
     return Math.round(Math.random() * 20) - 10;
@@ -49,7 +49,7 @@ export default function Cart(props) {
     // }
     console.log("CART CART", props.cart)
     const cartQuantity = props.cart.items.reduce((sum, product)=> sum + product.quantity, 0)
-
+    const cartPrice = props.cart.items.reduce((sum, product)=> sum + (parseFloat(product.price) * product.quantity), 0)
 
     const handleOpen = () => {
         setOpen(true);
@@ -62,7 +62,19 @@ export default function Cart(props) {
     const handleCheckout = () => {
         const fullCart = {...props.cart, isCheckedOut: true}
         props.setAppCart(fullCart)
-        //setCheckout(checkOut);
+        setOpen(false);
+        
+        const orderDate = new Date()
+        const orderDateFormatted = orderDate.toLocaleString("en-US")
+
+        const order = {
+            id: Date.now(), 
+            order_date: orderDateFormatted,
+            total_quantity: cartQuantity,
+            total_price: cartPrice,
+            items: fullCart.items
+        }
+        postOrder(order)
     };
     
     function handleIncrementProduct(productId, name, price) {
@@ -144,17 +156,17 @@ export default function Cart(props) {
                                 >
                                         x
                                     </button>
-                                    <button 
-                                    key={`order-${items.id}-${Math.random()}`} 
-                                    className="order__button"
-                                    onClick= {handleCheckout}
-                                >
-                                        Submit
-                                    </button>
                                 </ul>
                     </h3>
                     
                     })}
+                                <button 
+                                    key={`order-${Math.random()}`} 
+                                    className="order__button"
+                                    onClick= {handleCheckout}
+                                >
+                                        Submit
+                                </button>
                 </div>
             </Modal>
         </div>
