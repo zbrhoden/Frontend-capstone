@@ -1,6 +1,6 @@
 import "./NavBar.css"
 import Cart from '../cart/Cart'
-
+import { Link } from "react-router-dom"
 
 export const NavBar = (props) => {
 
@@ -9,6 +9,16 @@ export const NavBar = (props) => {
             <h1 className="NavBar-brand">Blake's Groceries</h1>
             <div className="menu-item">Contact Us</div>
             <div className="menu-item">User Profile</div>
+            <div className="navbar__item">
+                <Link className="navbar__link" to="#"
+                    onClick={
+                            () => {
+                                localStorage.removeItem("customer")
+                            }
+                        }>
+                        Logout
+                </Link>
+            </div>
             <Cart setAppCart={props.setAppCart} cart={props.cart} />
             
         </nav>
