@@ -11,7 +11,7 @@ export const Checkout = (props) => {
 
         return (
           <div>
-            <b>{isCheckedOut ? `The user is checked out with ${cartQuantity} for $${cartPrice}` : ''}</b>
+            <b>{isCheckedOut ? `The user is checked out with ${cartQuantity} for $${cartPrice.toFixed(2)}` : ''}</b>
 
           </div>
         )
