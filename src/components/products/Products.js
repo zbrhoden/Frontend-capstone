@@ -47,6 +47,7 @@ export const Products = (props) => {
                         (product) => {
                             return <h3 className="card">
                                 <ul className="products" key={`product--${product.id}-${Math.random()}`}>
+                                <img src={product.image} width="130" height="130"></img>
                                 <ul className="product" >{product.name}</ul>
                                 <ul className="product price">${product.price}
                                 </ul>

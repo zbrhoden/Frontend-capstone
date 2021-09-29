@@ -45,7 +45,7 @@ export default function Cart(props) {
 
     const cartQuantity = props.cart.items.reduce((sum, product)=> sum + product.quantity, 0)
     const cartPrice = props.cart.items.reduce((sum, product)=> sum + (parseFloat(product.price) * product.quantity), 0)
-
+    
 
 
     const handleOpen = () => {
@@ -139,8 +139,9 @@ export default function Cart(props) {
                             return <h3 className="cartCard">
                                 
                                 <ul className="products" key={`product--${items.id}`}>
+                                <img src={items.image} width="130" height="130"></img>
                                 <ul className="product" >{items.name}</ul>
-                                <ul className="product quantity">Quantity: {items.quantity}</ul>
+                                <ul className="product_quantity">Quantity: {items.quantity}</ul>
                                 <Button variant="contained" spacing={2}
                                     key={`order-${items.id}-${Math.random()}`} 
                                     className="cart__button"
