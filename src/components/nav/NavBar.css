@@ -1,10 +1,12 @@
 .NavbarItems {
-background-color:forestgreen;
+background-color:rgb(80,133,165);
 display: flex;
 }
 
 .NavBar-brand {
     margin-left: 10px;
+    display: flex;
+    white-space:nowrap;
 }
 
 .menu-item {

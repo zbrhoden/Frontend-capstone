@@ -42,14 +42,17 @@ export const Products = (props) => {
                 <div className="products__header">
 
                 </div>
+                
                 {
                     products.map(
                         (product) => {
-                            return <h3 className="card">
+                            return<h3 className="cards">
                                 <ul className="products" key={`product--${product.id}-${Math.random()}`}>
-                                <img src={product.image} width="130" height="130"></img>
-                                <ul className="product" >{product.name}</ul>
-                                <ul className="product price">${product.price}
+                                <img className= "product_image" src={product.image}></img>
+                                <ul className="product_information">
+                                <ul className="product_name" >{product.name}</ul>
+                                <ul className="product_price">${product.price}
+                                </ul>
                                 </ul>
                                 <Button variant="contained" spacing={2} 
                                     key={`order-${product.id}-${Math.random()}`} 
@@ -65,8 +68,7 @@ export const Products = (props) => {
                     )
                     
                 }
-                <div> 
-                </div>
+                
         </>
     )
 }
