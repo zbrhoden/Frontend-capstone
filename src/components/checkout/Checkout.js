@@ -7,11 +7,11 @@ export const Checkout = (props) => {
 
         const isCheckedOut = props.cart.isCheckedOut;
 
-
+console.log(props)
 
         return (
           <div>
-            <b>{isCheckedOut ? `The user is checked out with ${cartQuantity} for $${cartPrice.toFixed(2)}` : ''}</b>
+            <b>{ `Thank you for purchasing ${cartQuantity} products totalling $${cartPrice.toFixed(2)}`}</b>
 
           </div>
         )

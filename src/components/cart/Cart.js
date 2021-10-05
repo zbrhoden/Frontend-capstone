@@ -6,18 +6,24 @@ import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Badge from '@material-ui/core/Badge';
 import {postOrder} from '../ApiManager';
 import "./Cart.css"
+import { Checkout } from '../checkout/Checkout'
 
 function rand() {
     return Math.round(Math.random() * 20) - 10;
 }
 
 function getModalStyle() {
-    const top = 50 + rand();
-    const left = 50 + rand();
+    const top = 50 
+    const left = 50 
     return {
         top: `${top}%`,
         left: `${left}%`,
         transform: `translate(-${top}%, -${left}%)`,
+        position:'absolute',
+        overflow:'scroll',
+        height:'100%',
+        display:'block'
+        
     };
 }
 
@@ -26,6 +32,7 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        
     },
     paper: {
         position: 'absolute',
@@ -40,6 +47,7 @@ export default function Cart(props) {
     const classes = useStyles();
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
+    const [myLastOrder, setMyLastOrder] = React.useState({});
 
 
 
@@ -61,7 +69,7 @@ export default function Cart(props) {
     const handleCheckout = () => {
         const fullCart = {...props.cart, isCheckedOut: true}
         props.setAppCart(fullCart)
-        setOpen(false);
+        //setOpen(false);
         
         const orderDate = new Date()
         const orderDateFormatted = orderDate.toLocaleString("en-US")
@@ -74,6 +82,9 @@ export default function Cart(props) {
             items: fullCart.items
         }
         postOrder(order)
+        setMyLastOrder(order)
+        //handleDeleteProduct(fullCart)
+        props.setAppCart({ isCheckedOut: false, items: []})
     };
     
 
@@ -130,15 +141,22 @@ export default function Cart(props) {
                 open={open}
                 onClose={handleClose}
             >
+                {myLastOrder.total_price > 0 && props.cart.items.length == 0 ? ( 
+                    <div style={modalStyle} className={classes.paper}>
+                        <h2>Your Order</h2>
+                        <Checkout cart={myLastOrder} /> 
+                 </div>
+                ): 
+            (
                 <div style={modalStyle} className={classes.paper}>
                     <h2>Your Cart</h2>
-                    
+
                     {
                     props.cart.items.map(
                         (items) => {
                             return <h3 className="cartCard">
                                 
-                                <ul className="products" key={`product--${items.id}`}>
+                                <ul className="products" key={`product--${items.id}-${Math.random()}`}>
                                 <img src={items.image} width="130" height="130"></img>
                                 <ul className="product" >{items.name}</ul>
                                 <ul className="product_quantity">Quantity: {items.quantity}</ul>
@@ -171,11 +189,11 @@ export default function Cart(props) {
                                 <Button variant="contained" spacing={2}
                                     key={`order-${Math.random()}`} 
                                     className="order__button"
-                                    onClick= {handleCheckout}
+                                    onClick= {handleCheckout} 
                                 >
                                         Submit
                                 </Button>
-                </div>
+                </div>)}
             </Modal>
         </div>
         </>

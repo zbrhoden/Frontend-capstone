@@ -28,7 +28,7 @@ export const App = () => {
                         <>
                           <NavBar setAppCart={handleAddProductToAppCart} cart={appCart} />
                           <Products setAppCart={handleAddProductToAppCart} cart={appCart} />
-                          <Checkout setAppCart={handleAddProductToAppCart} cart={appCart} /> 
+                          {/* <Checkout setAppCart={handleAddProductToAppCart} cart={appCart} />  */}
                         </>
                     );
                 } else {
