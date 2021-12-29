@@ -1,7 +1,7 @@
 import "./NavBar.css"
 import Cart from '../cart/Cart'
 import { Link } from "react-router-dom"
-import SearchBar from "@material-ui/core/search-bar";
+import SearchBar from "material-ui-search-bar";
 
 export const NavBar = (props) => {
 
