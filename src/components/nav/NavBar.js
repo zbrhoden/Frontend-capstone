@@ -8,7 +8,9 @@ export const NavBar = (props) => {
     return (
         <nav className="NavbarItems">
             <h1 className="NavBar-brand">Blake's Groceries</h1>
-            <SearchBar/>
+            <SearchBar
+
+            />
             <div className="menu-item">User Profile</div>
             <div className="navbar__item">
                 <Link className="navbar__link" to="#"

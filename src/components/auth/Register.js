@@ -1,71 +1,86 @@
-import React, { useRef, useState } from "react"
-import { useHistory } from "react-router-dom"
-import { checkUserEmail, createNewUser } from "../ApiManager"
+import React, { useRef } from "react"
+import { Link, useHistory} from "react-router-dom"
 import "./Login.css"
 
-export const Register = (props) => {
-    const [customer, setCustomer] = useState({})
-    const conflictDialog = useRef()
-
+export const Register = () => {
+    const firstName = useRef()
+    const lastName = useRef()
+    const username = useRef()
+    const password = useRef()
+    const verifyPassword = useRef()
+    const passwordDialog = useRef()
     const history = useHistory()
 
-    const existingUserCheck = () => {
-        return checkUserEmail(customer.email)
-            .then(user => !!user.length)
-    }
     const handleRegister = (e) => {
         e.preventDefault()
-        existingUserCheck()
-            .then((userExists) => {
-                if (!userExists) {
-                    createNewUser(customer)
-                        .then(createdUser => {
-                            if (createdUser.hasOwnProperty("id")) {
-                                localStorage.setItem("customer", createdUser.id)
-                                history.push("/")
-                            }
-                        })
-                }
-                else {
-                    conflictDialog.current.showModal()
-                }
+
+        if (password.current.value === verifyPassword.current.value) {
+            const newUser = {
+                "username": username.current.value,
+                "first_name": firstName.current.value,
+                "last_name": lastName.current.value,
+                "password": password.current.value
+            }
+
+            return fetch(process.env.REACT_APP_BACKEND_URL+"/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+                body: JSON.stringify(newUser)
             })
+                .then(res => res.json())
+                .then(res => {
+                    if ("token" in res) {
+                        localStorage.setItem("token", res.token)
+                        history.push("/")
+                    }
+                })
+        } else {
+            passwordDialog.current.showModal()
+        }
     }
-
-    const updateCustomer = (evt) => {
-        const copy = {...customer}
-        copy[evt.target.id] = evt.target.value
-        setCustomer(copy)
-    }
-
 
     return (
         <main style={{ textAlign: "center" }}>
-            <dialog className="dialog dialog--password" ref={conflictDialog}>
-                <div>Account with that email address already exists</div>
-                <button className="button--close" onClick={e => conflictDialog.current.close()}>Close</button>
+
+            <dialog className="dialog dialog--password" ref={passwordDialog}>
+                <div>Passwords do not match</div>
+                <button className="button--close" onClick={e => passwordDialog.current.close()}>Close</button>
             </dialog>
 
             <form className="form--login" onSubmit={handleRegister}>
-                <h1 className="h3 mb-3 font-weight-normal">Please Register for Blake's Groceries</h1>
+                <h1 className="h3 mb-3 font-weight-normal">Register an account</h1>
                 <fieldset>
-                    <label htmlFor="name"> Full Name </label>
-                    <input onChange={updateCustomer}
-                           type="text" id="name" className="form-control"
-                           placeholder="Enter your name" required autoFocus />
+                    <label htmlFor="firstName"> First Name </label>
+                    <input ref={firstName} type="text" name="firstName" className="form-control" placeholder="First name" required autoFocus />
                 </fieldset>
                 <fieldset>
-                    <label htmlFor="address"> Address </label>
-                    <input onChange={updateCustomer} type="text" id="address" className="form-control" placeholder="Street address" required />
+                    <label htmlFor="lastName"> Last Name </label>
+                    <input ref={lastName} type="text" name="lastName" className="form-control" placeholder="Last name" required />
                 </fieldset>
                 <fieldset>
-                    <label htmlFor="email"> Email address </label>
-                    <input onChange={updateCustomer} type="email" id="email" className="form-control" placeholder="Email address" required />
+                    <label htmlFor="inputUsername">Username</label>
+                    <input ref={username} type="text" name="username" className="form-control" placeholder="Username" required />
                 </fieldset>
                 <fieldset>
-                    <button type="submit"> Register </button>
+                    <label htmlFor="inputPassword"> Password </label>
+                    <input ref={password} type="password" name="password" className="form-control" placeholder="Password" required />
+                </fieldset>
+                <fieldset>
+                    <label htmlFor="verifyPassword"> Verify Password </label>
+                    <input ref={verifyPassword} type="password" name="verifyPassword" className="form-control" placeholder="Verify password" required />
+                </fieldset>
+                <fieldset style={{
+                    textAlign: "center"
+                }}>
+                    <button className="btn btn-1 btn-sep icon-send" type="submit" onClick={handleRegister}>Register</button>
                 </fieldset>
             </form>
+            <section className="link--register">
+                Already registered? <Link to="/login">Login</Link>
+            </section>
         </main>
     )
 }

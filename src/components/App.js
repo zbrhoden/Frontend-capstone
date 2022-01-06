@@ -23,7 +23,7 @@ export const App = () => {
     <>
         <Route
             render={() => {
-                if (localStorage.getItem("customer")) {
+                if (localStorage.getItem("token")) {
                     return (
                         <>
                           <NavBar setAppCart={handleAddProductToAppCart} cart={appCart} />
@@ -31,7 +31,7 @@ export const App = () => {
                           {/* <Checkout setAppCart={handleAddProductToAppCart} cart={appCart} />  */}
                         </>
                     );
-                } else {
+                // } else {
                     return <Redirect to="/login" />;
                 }
             }}

@@ -1,55 +1,62 @@
-import React, { useRef, useState } from "react"
-import { Link } from "react-router-dom";
-import { useHistory } from "react-router-dom"
-import { checkUserEmail } from "../ApiManager";
+import React, { useRef } from "react"
+import { Link, useHistory} from "react-router-dom"
 import "./Login.css"
 
-export const Login = () => {
-    const [email, set] = useState("")
-    const existDialog = useRef()
-    const history = useHistory()
 
-    const existingUserCheck = () => {
-        return checkUserEmail(email)
-            .then(user => user.length ? user[0] : false)
-    }
+export const Login = () => {
+    const username = useRef()
+    const password = useRef()
+    const invalidDialog = useRef()
+    const history = useHistory()
 
     const handleLogin = (e) => {
         e.preventDefault()
-        existingUserCheck()
-            .then(exists => {
-                if (exists) {
-                    localStorage.setItem("customer", exists.id)
+
+        return fetch(process.env.REACT_APP_BACKEND_URL+"/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify({
+                username: username.current.value,
+                password: password.current.value
+            })
+        })
+            .then(res => res.json())
+            .then(res => {
+                if ("valid" in res && res.valid && "token" in res) {
+                    localStorage.setItem("token", res.token)
                     history.push("/")
-                } else {
-                    existDialog.current.showModal()
+                }
+                else {
+                    invalidDialog.current.showModal()
                 }
             })
     }
 
     return (
         <main className="container--login">
-            <dialog className="dialog dialog--auth" ref={existDialog}>
-                <div>User does not exist</div>
-                <button className="button--close" onClick={e => existDialog.current.close()}>Close</button>
+            <dialog className="dialog dialog--auth" ref={invalidDialog}>
+                <div>Username or password was not valid.</div>
+                <button className="button--close" onClick={e => invalidDialog.current.close()}>Close</button>
             </dialog>
-
             <section>
                 <form className="form--login" onSubmit={handleLogin}>
                     <h1>Blake's Groceries</h1>
                     <h2>Please sign in</h2>
                     <fieldset>
-                        <label htmlFor="inputEmail"> Email address </label>
-                        <input type="email"
-                            onChange={evt => set(evt.target.value)}
-                            className="form-control"
-                            placeholder="Email address"
-                            required autoFocus />
+                        <label htmlFor="inputUsername"> Username address </label>
+                        <input ref={username} type="username" id="username" className="form-control" placeholder="Username address" required autoFocus />
                     </fieldset>
                     <fieldset>
-                        <button type="submit">
-                            Sign in
-                        </button>
+                        <label htmlFor="inputPassword"> Password </label>
+                        <input ref={password} type="password" id="password" className="form-control" placeholder="Password" required />
+                    </fieldset>
+                    <fieldset style={{
+                        textAlign: "center"
+                    }}>
+                        <button className="btn btn-1 btn-sep icon-send" type="submit">Sign In</button>
                     </fieldset>
                 </form>
             </section>
