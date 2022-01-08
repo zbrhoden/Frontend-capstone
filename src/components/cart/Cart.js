@@ -1,4 +1,5 @@
 import React from "react"
+import { useEffect, useState } from "react"
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Modal from '@material-ui/core/Modal';
@@ -7,6 +8,9 @@ import Badge from '@material-ui/core/Badge';
 import {postOrder} from '../ApiManager';
 import "./Cart.css"
 import { Checkout } from '../checkout/Checkout'
+import { getAllDiscounts } from '../ApiManager'
+
+
 
 function rand() {
     return Math.round(Math.random() * 20) - 10;
@@ -48,22 +52,66 @@ export default function Cart(props) {
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
     const [myLastOrder, setMyLastOrder] = React.useState({});
+    const [allDiscounts, setAllDiscounts] = React.useState({});
+    
 
 
 
     const cartQuantity = props.cart.items.reduce((sum, product)=> sum + product.quantity, 0)
     const cartPrice = props.cart.items.reduce((sum, product)=> sum + (parseFloat(product.price) * product.quantity), 0)
     
-
+    useEffect(
+        () => {
+                getAllDiscounts()
+                .then((data) => {
+                    setAllDiscounts(data)
+                })
+        },
+        []
+    )
 
     const handleOpen = () => {
         setOpen(true);
+        console.log("cart", props.cart.items)
+        console.log("discounts", allDiscounts)
+        calculateCart()
+        console.log("Calc'd cart", props.cart.items)
     };
 
     const handleClose = () => {
         setOpen(false);
     };
    
+    const calculateCart = () => {
+        let newCart = props.cart.items
+        for (let i = 0; i < newCart.length; i++) {
+            let item = newCart[i]
+            item['discountPercentage'] = findDiscount(item);
+            item['totalOriginalPrice'] = (parseFloat(item.price) * item.quantity).toFixed(2)
+            item['discountPrice'] = (1 - item['discountPercentage']) * parseFloat(item.price)
+            item['totalPrice'] = (item['discountPrice'] * item.quantity).toFixed(2)
+            item['totalSavings'] = (parseFloat(item['totalOriginalPrice']) - parseFloat(item['totalPrice'])).toFixed(2)
+            newCart[i] = item
+          
+        }
+        const fullCart = {...props.cart, items: newCart}
+        props.setAppCart(fullCart)
+    }
+
+    const findDiscount = (item) => {
+        let itemDiscount = 0;
+        for (let i = 0; i < allDiscounts.length; i++) {
+            const discountItem = allDiscounts[i]
+            if(discountItem.inventory.id == item.id){
+                //Name of item matches requirement of discount
+                if(item.quantity >= discountItem.quantity){
+                    //Quantity matches requirement to discount
+                    itemDiscount += parseFloat(discountItem.discount_percentage)
+                }
+            }
+        }
+        return itemDiscount
+    }
 
 
     const handleCheckout = () => {
@@ -77,8 +125,8 @@ export default function Cart(props) {
         const order = {
             id: Date.now(), 
             order_date: orderDateFormatted,
-            total_quantity: cartQuantity,
-            total_price: cartPrice,
+            //total_quantity: cartQuantity,
+           // total_price: cartPrice,
             items: fullCart.items
         }
         postOrder(order)
@@ -96,6 +144,7 @@ export default function Cart(props) {
 
         const fullCart = {...props.cart, items: newCart}
         props.setAppCart(fullCart)
+        calculateCart()
     }}
 
 
@@ -111,6 +160,7 @@ export default function Cart(props) {
         }}
         const fullCart = {...props.cart, items: newCart}
         props.setAppCart(fullCart)
+        calculateCart()
     }
 
 
@@ -122,6 +172,7 @@ export default function Cart(props) {
 
         const fullCart = {...props.cart, items: newCart}
         props.setAppCart(fullCart)
+        calculateCart()
     }
 
 
@@ -145,6 +196,7 @@ export default function Cart(props) {
                     <div style={modalStyle} className={classes.paper}>
                         <h2>Your Order</h2>
                         <Checkout cart={myLastOrder} /> 
+                
                  </div>
                 ): 
             (
@@ -160,6 +212,8 @@ export default function Cart(props) {
                                 <img src={items.image} width="130" height="130"></img>
                                 <ul className="product" >{items.name}</ul>
                                 <ul className="product_quantity">Quantity: {items.quantity}</ul>
+                                <ul className="product_price">Item Price: ${items.price}</ul>
+                                <ul className="product_total_price">Total Price: ${items.totalPrice}</ul>
                                 <Button variant="contained" spacing={2}
                                     key={`order-${items.id}-${Math.random()}`} 
                                     className="cart__button"
@@ -182,7 +236,10 @@ export default function Cart(props) {
                                 >
                                         Delete
                                     </Button>
+
+                                
                                 </ul>
+                                
                     </h3>
                     
                     })}

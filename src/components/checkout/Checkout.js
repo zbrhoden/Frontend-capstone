@@ -11,7 +11,7 @@ console.log(props)
 
         return (
           <div>
-            <b>{ `Thank you for purchasing ${cartQuantity} products totalling $${cartPrice.toFixed(2)}`}</b>
+            <b>{ `Thank you for purchasing ${cartQuantity} products totaling $${cartPrice.toFixed(2)}`}</b>
 
           </div>
         )

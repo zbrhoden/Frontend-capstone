@@ -7,6 +7,15 @@ export const getAllProducts = () => {
         .then(response => response.json())
 }
 
+export const getAllDiscounts = () => {
+    return fetch(process.env.REACT_APP_BACKEND_URL+"/discount", {
+        headers:{
+            "Authorization": `Token ${localStorage.getItem("token")}`
+        }
+    })
+        .then(response => response.json())
+}
+
 export const postOrder = (order) => {
     const fetchOptions = {
             method: "POST",
