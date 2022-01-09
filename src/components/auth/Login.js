@@ -8,10 +8,9 @@ export const Login = () => {
     const password = useRef()
     const invalidDialog = useRef()
     const history = useHistory()
-
+    
     const handleLogin = (e) => {
         e.preventDefault()
-
         return fetch(process.env.REACT_APP_BACKEND_URL+"/login", {
             method: "POST",
             headers: {
@@ -27,7 +26,7 @@ export const Login = () => {
             .then(res => {
                 if ("valid" in res && res.valid && "token" in res) {
                     localStorage.setItem("token", res.token)
-                    history.push("/")
+                    history.push("/home")
                 }
                 else {
                     invalidDialog.current.showModal()

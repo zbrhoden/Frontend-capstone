@@ -17,16 +17,15 @@ export const getAllDiscounts = () => {
 }
 
 export const postOrder = (order) => {
-    const fetchOptions = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(order)
-    }
-        
-    return fetch(`http://localhost:8088/orders`, fetchOptions)
-    .then(response => response.json())
+    return fetch(process.env.REACT_APP_BACKEND_URL+"/order", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Token ${localStorage.getItem("token")}`
+        },
+        body: JSON.stringify(order)
+    })
+        .then(res => res.json())
 }
 
 export const checkUserEmail = (userEmail) => {

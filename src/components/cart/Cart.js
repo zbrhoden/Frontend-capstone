@@ -125,8 +125,6 @@ export default function Cart(props) {
         const order = {
             id: Date.now(), 
             order_date: orderDateFormatted,
-            //total_quantity: cartQuantity,
-           // total_price: cartPrice,
             items: fullCart.items
         }
         postOrder(order)
