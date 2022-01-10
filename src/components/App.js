@@ -31,7 +31,7 @@ export const App = () => {
                           {/* <Checkout setAppCart={handleAddProductToAppCart} cart={appCart} />  */}
                         </>
                     );
-                // } else {
+                } else {
                     return <Redirect to="/login" />;
                 }
             }}
