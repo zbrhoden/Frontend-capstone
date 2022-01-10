@@ -120,7 +120,7 @@ export default function Cart(props) {
         //setOpen(false);
         
         const orderDate = new Date()
-        const orderDateFormatted = orderDate.toLocaleString("en-US")
+        const orderDateFormatted = orderDate.toJSON();
 
         const order = {
             id: Date.now(), 
