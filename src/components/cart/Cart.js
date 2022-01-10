@@ -72,10 +72,7 @@ export default function Cart(props) {
 
     const handleOpen = () => {
         setOpen(true);
-        console.log("cart", props.cart.items)
-        console.log("discounts", allDiscounts)
         calculateCart()
-        console.log("Calc'd cart", props.cart.items)
     };
 
     const handleClose = () => {

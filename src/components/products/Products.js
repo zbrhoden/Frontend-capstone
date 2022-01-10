@@ -61,7 +61,7 @@ export const Products = (props) => {
                                     className="order__button"
                                     onClick={() => handleAddProductToCart(product.id, product.name, product.price)}
                                 >
-                                        Purchase
+                                        ADD TO CART
                                     </Button>  
                                 </MuiThemeProvider>  
                                 </Grid>
