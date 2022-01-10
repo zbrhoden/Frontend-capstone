@@ -12,7 +12,7 @@ export const NavBar = (props) => {
                 <Link className="navbar__link" to="#"
                     onClick={
                             () => {
-                                localStorage.removeItem("customer")
+                                localStorage.removeItem("token")
                             }
                         }>
                         Logout
