@@ -104,6 +104,8 @@ export default function Cart(props) {
                 if(item.quantity >= discountItem.quantity){
                     //Quantity matches requirement to discount
                     itemDiscount += parseFloat(discountItem.discount_percentage)
+                    //TODO : DAY OF WEEK, CATEGORY
+                     
                 }
             }
         }
@@ -120,7 +122,7 @@ export default function Cart(props) {
         const orderDateFormatted = orderDate.toJSON();
 
         const order = {
-            id: Date.now(), 
+            // id: Date.now(), 
             order_date: orderDateFormatted,
             items: fullCart.items
         }
