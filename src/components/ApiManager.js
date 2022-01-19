@@ -16,6 +16,15 @@ export const getAllDiscounts = () => {
         .then(response => response.json())
 }
 
+export const getAllOrders = () => {
+    return fetch(process.env.REACT_APP_BACKEND_URL+"/order", {
+        headers:{
+            "Authorization": `Token ${localStorage.getItem("token")}`
+        }
+    })
+        .then(response => response.json())
+}
+
 export const postOrder = (order) => {
     return fetch(process.env.REACT_APP_BACKEND_URL+"/order", {
         method: "POST",

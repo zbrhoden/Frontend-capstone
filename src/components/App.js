@@ -5,6 +5,7 @@ import { Checkout } from './checkout/Checkout'
 import { Login } from "./auth/Login";
 import { Register } from "./auth/Register";
 import { Route, Redirect } from "react-router-dom";
+import { OrderList } from './orders/orders';
 
 export const App = () => {
   const defaultCart = { isCheckedOut: false, items: []}
@@ -36,7 +37,9 @@ export const App = () => {
                 }
             }}
         />
-  
+        <Route path="/orders">
+            <OrderList />
+        </Route>
         <Route path="/login">
             <Login />
         </Route>

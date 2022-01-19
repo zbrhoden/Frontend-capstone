@@ -78,7 +78,7 @@ export default function Cart(props) {
     const handleClose = () => {
         setOpen(false);
     };
-   
+
     const calculateCart = () => {
         let newCart = props.cart.items
         for (let i = 0; i < newCart.length; i++) {
@@ -124,6 +124,8 @@ export default function Cart(props) {
         const order = {
             // id: Date.now(), 
             order_date: orderDateFormatted,
+            total_price: cartPrice,
+            total_quantity: cartQuantity,
             items: fullCart.items
         }
         postOrder(order)
